@@ -1,62 +1,49 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@include file="/WEB-INF/webpage/common/taglibs.jspf"%>
+<c:set var="serviceurl" value="${adminPath}/sms/smssendlog" />
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="decorator" content="single"/>
-    <title>文件上传</title>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta name="decorator" content="list"/>
+    <title>bootstrapTable</title>
     <link rel="stylesheet" href="${staticPath}/common/bootstrap-table/bootstrap-table.min.css" />
     
     <!-- 全局js -->
-	<html:js name="Validform" />
+	<%-- <html:js name="Validform" /> --%>
 </head>
 
 <body class="gray-bg">
-	<div class="wrapper wrapper-content animated fadeInRight">
-		<div class="row">
-	      <div class="ibox float-e-margins">
-	        <!-- <div class="ibox-title">
-	          <h5>管理员列表</h5>
-	          <div class="ibox-tools"> <a class="collapse-link"><i class="fa fa-chevron-up"></i></a> <a class="close-link"><i class="fa fa-times"></i></a> </div>
-	        </div> -->
-	        
-	        <div class="ibox-content">
-				<div class="row">
-					<div class="pull-left">
-						      <button id="yy-btn-add" class="btn btn-sm btn-blue"><i class="fa fa-plus"></i> 添加</button>
-						      <button id="yy-btn-edit" class="btn btn-sm btn-success"><i class="fa fa-file-text-o"></i> 修改</button>
-						      <button id="yy-btn-remove" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i> 删除</button>
-					</div>
-					<div class="pull-right">
-					      <button class="btn btn-sm btn-info" onclick="search('roleGridIdGrid')"><i class="fa fa-search"></i> 搜索</button>
-					      <button class="btn btn-sm btn-warning" onclick="reset('roleGridIdGrid')"><i class="fa fa-refresh"></i> 重置</button>
-					</div>
-				</div>
-				<div class="row">
-					<table id=ls-table></table>
-				</div>
-			</div>
-	      </div>
+	<div class="">
+		<div class="pull-left">
+			      <button id="yy-btn-add" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> 添加</button>
+			      <button id="yy-btn-edit" class="btn btn-sm btn-success"><i class="fa fa-file-text-o"></i> 修改</button>
+			      <button id="yy-btn-remove" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i> 删除</button>
+		</div>
+		<div class="pull-right">
+		      <button class="btn btn-sm btn-info" onclick="search('roleGridIdGrid')"><i class="fa fa-search"></i> 搜索</button>
+		      <button class="btn btn-sm btn-warning" onclick="reset('roleGridIdGrid')"><i class="fa fa-refresh"></i> 重置</button>
+		</div>
+		<div>
+			<table id=ls-table></table>
 		</div>
 	</div>
-	<myfooter> 
+	  <script src="${staticPath}/vendors/layer/layer.min.js"></script>
 	  <!-- Bootstrap table --> 
 	  <script src="${staticPath}/common/bootstrap-table/bootstrap-table.min.js"></script> 
 	  <script src="${staticPath}/common/bootstrap-table/extensions/export/bootstrap-table-export.js"></script> 
 	  <script src="${staticPath}/common/bootstrap-table/tableExport.js"></script> 
 	  <script src="${staticPath}/common/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script> 
 	  <!-- 自定义js --> 
-	  <script src="${staticPath}/common/yy/yy-ui-utils.js?v=333"></script> 
+	  <script src="${staticPath}/common/yy/yy-ui-utils.js?v=33311"></script> 
 	  <script>
-	  
 		  $(document).ready(function() {
 			  var $table = $('#ls-table');
 				$(function() {
 					$table.bootstrapTable({
-						url: '${adminPath}/sms/smssendlog/ajaxListNew',
-						height: '650',
+						url: '${serviceurl}/ajaxListNew',
+						//height: '650',
 						striped: true,
 						search: false,
 						showRefresh: false,
@@ -69,6 +56,7 @@
 						paginationLoop: false,
 						sidePagination: 'server',
 						pageSize: '20',
+						pageList: [10 , 20, 50, 100,500],
 						silentSort: false,
 						smartDisplay: false,
 						escape: true,
@@ -129,16 +117,7 @@
 				if (!onAddBefore()) {
 					return false;
 				}
-				/* top.layer.open({
-					type : 2,
-					title : false,//标题
-					shadeClose : false,//是否点击遮罩关闭
-					shade : 0.8,//透明度
-					closeBtn : 0,//关闭按钮
-					area : [ "90%", "90%"],
-					content : '${ctx}/admin/demo/form/bootstrapTable?'+ _addParam, //iframe的url
-				}); */
-				openDialog("添加","${ctx}/admin/demo/form/bootstrapTable","ls-table","90%", "90%");
+				openDialog("添加","${serviceurl}/create","ls-table","90%", "90%");
 				onAddAfter();
 			}
 			
@@ -256,11 +235,7 @@
 				return pks;
 			}
 			
-			
-			
-			
 	  </script> 
-	</myfooter>
 </body>
 
 </html>
