@@ -293,7 +293,7 @@ function formatMsg(msgstr, msgArr) {
 
 
 //打开对话框(添加修改)
-function openDialog(title,url,gridId,width,height){
+function openlsDialog(title,url,gridId,width,height){
 	width = width?width:'800px';
 	height = height?height:'500px';
 	if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
@@ -302,6 +302,7 @@ function openDialog(title,url,gridId,width,height){
 	}else{//如果是PC端，根据用户设置的width和height显示。
 	
 	}
+
 	top.layer.open({
 	    type: 2,  
 	    area: [width, height],
@@ -312,20 +313,16 @@ function openDialog(title,url,gridId,width,height){
 	    yes: function(index, layero){
 	    	 var body = top.layer.getChildFrame('body', index);
 	         var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-	         //文档地址
-	         //http://www.layui.com/doc/modules/layer.html#use
-	         iframeWin.contentWindow.doSubmit(function()
-	         {
+	         //文档地址http://www.layui.com/doc/modules/layer.html#use
+	         iframeWin.contentWindow.doLsSubmit(function(){
 	        	 //判断逻辑并关闭
        	         setTimeout(function(){top.layer.close(index)}, 100);//延时0.1秒，对应360 7.1版本bug
 	        	 //刷新表单
-	        	 refreshTable(gridId);
+       	         onRefreshTable(gridId);//refreshTable(gridId);
 	         });
-			
 		  },
-		  cancel: function(index){ 
-			  
-		  }
+		 cancel: function(index){ 
+		 }
 	}); 	
 	
 }

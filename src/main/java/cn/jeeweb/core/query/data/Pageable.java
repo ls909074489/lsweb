@@ -56,4 +56,7 @@ public interface Pageable {
 	 * @return
 	 */
 	boolean hasPrevious();
+	
+	int getLimit();//edit by ls2008
+	
 }

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Criterion;
@@ -13,16 +14,15 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
+
 import cn.jeeweb.core.common.dao.ICommonDao;
 import cn.jeeweb.core.common.dao.ISqlDao;
 import cn.jeeweb.core.common.dao.support.OrderHelper;
 import cn.jeeweb.core.common.entity.MarkDeleteable;
 import cn.jeeweb.core.common.hibernate.dynamic.adapter.IDynamicHibernateAdapter;
-import cn.jeeweb.core.model.PageInfo;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-import org.springframework.util.Assert;
 
 @SuppressWarnings({ "unchecked" })
 @Repository("commonDao")
@@ -661,11 +661,11 @@ public class CommonDaoImpl extends BaseDaoImpl implements ICommonDao, ISqlDao, I
 	 * boostrap-table ls2008
 	 */
 	@Override
-	public <T> List<T> list(PageInfo pageInfo, DetachedCriteria detachedCriteria) {
+	public <T> List<T> listPage(int offset,int limit, DetachedCriteria detachedCriteria) {
 		Criteria criteria = detachedCriteria.getExecutableCriteria(getSession());
 		criteria.setProjection(null);
-		criteria.setFirstResult(pageInfo.getOffset());
-		criteria.setMaxResults(pageInfo.getLimit());
+		criteria.setFirstResult(offset);
+		criteria.setMaxResults(limit);
 		List<T> content = criteria.list();
 		return content;
 	}

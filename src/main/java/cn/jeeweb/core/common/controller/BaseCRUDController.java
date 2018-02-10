@@ -27,7 +27,6 @@ import cn.jeeweb.core.common.entity.AbstractEntity;
 import cn.jeeweb.core.common.service.ICommonService;
 import cn.jeeweb.core.model.ActionResultModel;
 import cn.jeeweb.core.model.AjaxJson;
-import cn.jeeweb.core.model.PageInfo;
 import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.model.ValidJson;
 import cn.jeeweb.core.query.annotation.PageableDefaults;
@@ -327,14 +326,53 @@ public abstract class BaseCRUDController<Entity extends AbstractEntity<ID>, ID e
 	@ResponseBody
 	@RequestMapping(value = "ajaxListNew", method = { RequestMethod.GET, RequestMethod.POST })
 	@PageableDefaults(sort = "id=desc")
-	private ActionResultModel<Entity> ajaxListNew(PageInfo pageInfo, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
+	private ActionResultModel<Entity> ajaxListNew(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		ActionResultModel<Entity> arm=new ActionResultModel<Entity>();
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(entityClass);
-//		preAjaxList(queryable, detachedCriteria, request, response);
+		preAjaxList(queryable, detachedCriteria, request, response);
 		propertyPreFilterable.addQueryProperty("id");
-		arm=commonService.list(pageInfo, detachedCriteria);
+		arm=commonService.listNew(queryable, detachedCriteria);
 		return arm;
 	}
-
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/deleteNew", method = RequestMethod.POST)
+	public AjaxJson deleteNew(ID id) {
+		AjaxJson ajaxJson = new AjaxJson();
+		ajaxJson.success("删除成功");
+		if (JeewebPropertiesUtil.getProperties().getBoolean("demoMode")) {
+			ajaxJson.fail("演示模式，不允许删除！");
+			return ajaxJson;
+		}
+		try {
+			commonService.deleteById(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			ajaxJson.fail("删除失败");
+		}
+		return ajaxJson;
+	}
+	
+	/**
+	 * 跳转到编辑页面
+	 * @param id
+	 * @param model
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/onEdit", method = RequestMethod.GET)
+	public String onEdit(@RequestParam(value = "id", required = true) ID id, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+		Entity entity = get(id);
+		preEdit(entity, model, request, response);
+		model.addAttribute("entity", entity);
+		String updateView = showUpdate(newModel(), model, request, response);
+		if (!StringUtils.isEmpty(updateView)) {
+			return updateView;
+		}
+		return display("edit");
+	}
 }

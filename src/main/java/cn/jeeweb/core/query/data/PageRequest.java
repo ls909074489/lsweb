@@ -16,6 +16,8 @@ public class PageRequest implements Pageable, Serializable {
 	private final int page;
 	private final int size;
 	private final Sort sort;
+	private final int limit;
+	private final int offset;
 
 	/**
 	 * Creates a new {@link PageRequest}. Pages are zero indexed, thus providing
@@ -24,8 +26,8 @@ public class PageRequest implements Pageable, Serializable {
 	 * @param size
 	 * @param page
 	 */
-	public PageRequest(int page, int size) {
-		this(page, size, null);
+	public PageRequest(int page, int size,int limit, int offset) {
+		this(page, size,limit, offset, null);
 	}
 
 	/**
@@ -36,8 +38,8 @@ public class PageRequest implements Pageable, Serializable {
 	 * @param direction
 	 * @param properties
 	 */
-	public PageRequest(int page, int size, Direction direction, String... properties) {
-		this(page, size, new Sort(direction, properties));
+	public PageRequest(int page, int size,int limit, int offset, Direction direction, String... properties) {
+		this(page, size,limit,offset, new Sort(direction, properties));
 	}
 
 	/**
@@ -48,7 +50,7 @@ public class PageRequest implements Pageable, Serializable {
 	 * @param sort
 	 *            can be {@literal null}.
 	 */
-	public PageRequest(int page, int size, Sort sort) {
+	public PageRequest(int page, int size,int limit, int offset, Sort sort) {
 
 		if (page < 0) {
 			throw new IllegalArgumentException("Page index must not be less than zero!");
@@ -60,6 +62,8 @@ public class PageRequest implements Pageable, Serializable {
 
 		this.page = page;
 		this.size = size;
+		this.limit = limit;
+		this.offset = offset;
 		this.sort = sort;
 	}
 
@@ -88,7 +92,8 @@ public class PageRequest implements Pageable, Serializable {
 	 * @see org.springframework.data.domain.Pageable#getOffset()
 	 */
 	public int getOffset() {
-		return page * size;
+//		return page * size;
+		return offset;
 	}
 
 	/*
@@ -115,7 +120,7 @@ public class PageRequest implements Pageable, Serializable {
 	 * @see org.springframework.data.domain.Pageable#next()
 	 */
 	public Pageable next() {
-		return new PageRequest(page + 1, size, sort);
+		return new PageRequest(page + 1, size,limit, offset, sort);
 	}
 
 	/*
@@ -124,7 +129,7 @@ public class PageRequest implements Pageable, Serializable {
 	 * @see org.springframework.data.domain.Pageable#previousOrFirst()
 	 */
 	public Pageable previousOrFirst() {
-		return hasPrevious() ? new PageRequest(page - 1, size, sort) : this;
+		return hasPrevious() ? new PageRequest(page - 1, size,limit, offset, sort) : this;
 	}
 
 	/*
@@ -133,7 +138,7 @@ public class PageRequest implements Pageable, Serializable {
 	 * @see org.springframework.data.domain.Pageable#first()
 	 */
 	public Pageable first() {
-		return new PageRequest(0, size, sort);
+		return new PageRequest(0, size,limit, offset, sort);
 	}
 
 	/*
@@ -186,7 +191,12 @@ public class PageRequest implements Pageable, Serializable {
 	 */
 	@Override
 	public String toString() {
-		return String.format("Page request [number: %d, size %d, sort: %s]", page, size,
+		return String.format("Page request [number: %d, size %d, limit %d,offset %d, sort: %s]", page, size,limit,offset,
 				sort == null ? null : sort.toString());
+	}
+
+	@Override
+	public int getLimit() {
+		return limit;
 	}
 }

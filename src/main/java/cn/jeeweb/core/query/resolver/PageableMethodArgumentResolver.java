@@ -80,7 +80,7 @@ import java.util.*;
  */
 public class PageableMethodArgumentResolver extends BaseMethodArgumentResolver {
 
-	private static final Pageable DEFAULT_PAGE_REQUEST = new PageRequest(0, 10);
+	private static final Pageable DEFAULT_PAGE_REQUEST = new PageRequest(0, 10,10,0);
 	private static final String DEFAULT_PAGE_PREFIX = "page";
 	private static final String DEFAULT_SORT_PREFIX = "sort";
 
@@ -184,14 +184,17 @@ public class PageableMethodArgumentResolver extends BaseMethodArgumentResolver {
 		}
 		Sort sort = getSort(sortNamePrefix, sortMap, defaultPageRequest, webRequest);
 		if (pageableMap.size() == 0) {
-			return new PageRequest(defaultPageRequest.getPageNumber(), defaultPageRequest.getPageSize(),
+			return new PageRequest(defaultPageRequest.getPageNumber(), defaultPageRequest.getPageSize(),defaultPageRequest.getLimit(),defaultPageRequest.getOffset(),
 					sort == null ? defaultPageRequest.getSort() : sort);
 		}
 
 		int pn = getPageNumber(pageableMap, defaultPageRequest);
 		int pageSize = getPageSize(pageableMap, defaultPageRequest);
-
-		return new PageRequest(pn, pageSize, sort);
+		
+		int limit = getLimit(pageableMap, defaultPageRequest);
+		int offset = getOffset(pageableMap, defaultPageRequest);
+		
+		return new PageRequest(pn, pageSize,limit,offset, sort);
 
 	}
 
@@ -288,6 +291,39 @@ public class PageableMethodArgumentResolver extends BaseMethodArgumentResolver {
 
 		return number;
 	}
+	
+	private int getLimit(Map<String, String[]> pageableMap, Pageable defaultPageRequest) {
+		int limit = 10;
+		try {
+			String limitStr = pageableMap.get("limit")[0];
+			if (limitStr != null) {
+				limit = Integer.valueOf(limitStr);
+			} else {
+				limit = defaultPageRequest.getLimit();
+			}
+		} catch (Exception e) {
+			limit = defaultPageRequest.getLimit();
+		}
+
+		return limit;
+	}
+	
+	private int getOffset(Map<String, String[]> pageableMap, Pageable defaultPageRequest) {
+		int offset = 0;
+		try {
+			String offsetStr = pageableMap.get("offset")[0];
+			if (offsetStr != null) {
+				offset = Integer.valueOf(offsetStr);
+			} else {
+				offset = defaultPageRequest.getOffset();
+			}
+		} catch (Exception e) {
+			offset = defaultPageRequest.getOffset();
+		}
+
+		return offset;
+	}
+	
 
 	/**
 	 * Resolves the prefix to use to bind properties from. Will prepend a
@@ -360,7 +396,7 @@ public class PageableMethodArgumentResolver extends BaseMethodArgumentResolver {
 				sort = sort.and(newSort);
 			}
 		}
-		return new PageRequest(pageNumber, pageSize, sort);
+		return new PageRequest(pageNumber, pageSize,pageableDefaults.limit(),pageableDefaults.offset(), sort);
 	}
 
 	/**

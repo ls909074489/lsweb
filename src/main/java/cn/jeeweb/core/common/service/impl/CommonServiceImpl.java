@@ -4,20 +4,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import cn.jeeweb.core.common.dao.ICommonDao;
-import cn.jeeweb.core.common.dao.support.OrderHelper;
-import cn.jeeweb.core.common.data.DuplicateValid;
-import cn.jeeweb.core.common.service.ICommonService;
-import cn.jeeweb.core.model.ActionResultModel;
-import cn.jeeweb.core.model.PageInfo;
-import cn.jeeweb.core.query.data.Page;
-import cn.jeeweb.core.query.data.PageImpl;
-import cn.jeeweb.core.query.data.Pageable;
-import cn.jeeweb.core.query.data.Queryable;
-import cn.jeeweb.core.query.parse.CriteriaParse;
-import cn.jeeweb.core.query.parse.QueryParse;
-import cn.jeeweb.core.query.utils.QueryableConvertUtils;
-import cn.jeeweb.core.utils.ReflectionUtils;
 
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
@@ -26,6 +12,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import cn.jeeweb.core.common.dao.ICommonDao;
+import cn.jeeweb.core.common.dao.support.OrderHelper;
+import cn.jeeweb.core.common.data.DuplicateValid;
+import cn.jeeweb.core.common.service.ICommonService;
+import cn.jeeweb.core.model.ActionResultModel;
+import cn.jeeweb.core.query.data.Page;
+import cn.jeeweb.core.query.data.PageImpl;
+import cn.jeeweb.core.query.data.Pageable;
+import cn.jeeweb.core.query.data.Queryable;
+import cn.jeeweb.core.query.parse.CriteriaParse;
+import cn.jeeweb.core.query.parse.QueryParse;
+import cn.jeeweb.core.query.utils.QueryableConvertUtils;
+import cn.jeeweb.core.utils.ReflectionUtils;
 
 @Transactional
 public class CommonServiceImpl<T extends Serializable> implements ICommonService<T> {
@@ -448,18 +448,53 @@ public class CommonServiceImpl<T extends Serializable> implements ICommonService
 			return false;
 		}
 	}
+	
+	
+	/**
+	 * 分页 ls2008
+	 */
+	@Override
+	public List<T> listPage(int offset, int limit, DetachedCriteria detachedCriteria) {
+		return commonDao.listPage(offset, limit, detachedCriteria);
+	}
 
 	/**
 	 * boostrap-table 分页 ls2008
 	 */
 	@Override
-	public ActionResultModel<T> list(PageInfo pageInfo, DetachedCriteria detachedCriteria) {
-		ActionResultModel<T> arm=new ActionResultModel<T>();
-		Long total = commonDao.count(detachedCriteria);
-		List<T> rows = commonDao.list(pageInfo, detachedCriteria);
-		arm.setTotal(total);
-		arm.setRows(rows);
-		return arm;
+	public ActionResultModel<T> listNew(Queryable queryable, DetachedCriteria detachedCriteria) {
+//		ActionResultModel<T> arm=new ActionResultModel<T>();
+//		Long total = commonDao.count(detachedCriteria);
+//		List<T> rows = commonDao.list(pageInfo, detachedCriteria);
+//		arm.setTotal(total);
+//		arm.setRows(rows);
+//		return arm;
 		
+		ActionResultModel<T> arm=new ActionResultModel<T>();
+		QueryParse<DetachedCriteria> queryParse = new CriteriaParse();
+		QueryableConvertUtils.convertQueryValueToEntityValue(queryable, entityClass);
+		queryParse.parseCondition(detachedCriteria, queryable);
+		Long total = commonDao.count(detachedCriteria);
+		//排序问题
+		queryParse.parseSort(detachedCriteria, queryable);
+		Pageable pageable = queryable.getPageable();
+		List<T> content = listPage(pageable.getOffset(), pageable.getLimit(), detachedCriteria);
+		arm.setTotal(total);
+		arm.setRows(content);
+		return arm;
 	}
+	
+	
+	public Page<T> lis2t(Queryable queryable, DetachedCriteria detachedCriteria) {
+		QueryParse<DetachedCriteria> queryParse = new CriteriaParse();
+		QueryableConvertUtils.convertQueryValueToEntityValue(queryable, entityClass);
+		queryParse.parseCondition(detachedCriteria, queryable);
+		Long total = commonDao.count(detachedCriteria);
+		//排序问题
+		queryParse.parseSort(detachedCriteria, queryable);
+		Pageable pageable = queryable.getPageable();
+		List<T> content = list(pageable.getPageNumber(), pageable.getPageSize(), detachedCriteria);
+		return new PageImpl<T>(content, queryable.getPageable(), total);
+	}
+
 }

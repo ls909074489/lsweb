@@ -9,7 +9,6 @@ import org.hibernate.criterion.DetachedCriteria;
 
 import cn.jeeweb.core.common.dao.support.OrderHelper;
 import cn.jeeweb.core.common.hibernate.dynamic.adapter.IDynamicHibernateAdapter;
-import cn.jeeweb.core.model.PageInfo;
 
 public interface ICommonDao extends IDynamicHibernateAdapter, ISqlDao {
 
@@ -75,8 +74,8 @@ public interface ICommonDao extends IDynamicHibernateAdapter, ISqlDao {
 	<T> List<T> list(int page, int rows, DetachedCriteria detachedCriteria);
 	
 	
-	<T> List<T> list(PageInfo pageInfo, DetachedCriteria detachedCriteria);//add by ls2008
-
+	<T> List<T> listPage(int offset,int limit, DetachedCriteria detachedCriteria);//add by ls2008
+	
 	/**
 	 * 删除
 	 * 

@@ -1,0 +1,9 @@
+D:\workspace2\lsweb\src\main\webapp\WEB-INF\static\common\css\style.css
+.float-e-margins .btn {
+    margin-bottom: 0px;/* 20180209 5px改为0px */
+}
+
+D:\workspace2\lsweb\src\main\webapp\WEB-INF\static\inspinia\css\style.css
+.float-e-margins .btn {
+    margin-bottom: 0px;/* 20180209 5px改为0px */
+}

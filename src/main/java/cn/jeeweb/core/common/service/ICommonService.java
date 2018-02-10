@@ -3,13 +3,13 @@ package cn.jeeweb.core.common.service;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 
 import cn.jeeweb.core.common.dao.support.OrderHelper;
 import cn.jeeweb.core.common.data.DuplicateValid;
 import cn.jeeweb.core.model.ActionResultModel;
-import cn.jeeweb.core.model.PageInfo;
 import cn.jeeweb.core.query.data.Page;
 import cn.jeeweb.core.query.data.Pageable;
 import cn.jeeweb.core.query.data.Queryable;
@@ -66,7 +66,9 @@ public interface ICommonService<T extends Serializable> {
 	/** 分页查找 */
 	Page<T> list(Queryable queryable, DetachedCriteria detachedCriteria);
 	
-	ActionResultModel<T> list(PageInfo pageInfo, DetachedCriteria detachedCriteria); //add by ls2008
+	ActionResultModel<T> listNew(Queryable queryable, DetachedCriteria detachedCriteria); //add by ls2008
+	
+	List<T> listPage(int offset, int limit, DetachedCriteria detachedCriteria);//add by ls2008
 
 	List<T> listWithNoPage(Queryable queryable, DetachedCriteria detachedCriteria);
 

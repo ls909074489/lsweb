@@ -37,5 +37,9 @@ public @interface PageableDefaults {
 	 * 默认的排序 格式为{"a=desc, a.b=desc"}
 	 */
 	String[] sort() default {};
+	
+	int limit() default 10;//edit by ls2008
+	
+	int offset() default 0;//edit by ls2008
 
 }

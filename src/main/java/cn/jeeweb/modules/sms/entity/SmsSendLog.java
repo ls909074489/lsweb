@@ -60,9 +60,13 @@ public class SmsSendLog extends AbstractEntity<String> {
 	 * @return: String 字段主键
 	 */
 
+//	@Id
+//	@GeneratedValue(generator = "assigned")
+//	@GenericGenerator(name = "assigned", strategy = "assigned")
 	@Id
-	@GeneratedValue(generator = "assigned")
-	@GenericGenerator(name = "assigned", strategy = "assigned")
+	@GeneratedValue(generator = "id")
+	@GenericGenerator(name = "id", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(length = 36, nullable = false)
 	public String getId() {
 		return this.id;
 	}

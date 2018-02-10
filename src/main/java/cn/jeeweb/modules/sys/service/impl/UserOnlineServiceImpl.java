@@ -71,7 +71,7 @@ public class UserOnlineServiceImpl extends CommonServiceImpl<UserOnline> impleme
 	public Page<UserOnline> findExpiredUserOnlineList(Date expiredDate, int page, int rows) {
 		String hql = "from UserOnline o where o.lastAccessTime < ? order by o.lastAccessTime asc";
 		Long total = countByHql("select count(*)  " + hql, expiredDate);
-		Pageable pageable = new PageRequest(page, rows);
+		Pageable pageable = new PageRequest(page, rows,rows, page);
 		List<UserOnline> content = listByHql(hql, expiredDate);
 		return new PageImpl<UserOnline>(content, pageable, total);
 	}
