@@ -16,7 +16,15 @@
     <script src="${staticPath}/common/yy/yy-ui-utils.js?v=34" type="text/javascript"></script> 
 </head>
 <body class="white-bg">
-	<div id="yy-page-edit" class="container-fluid page-container page-content" style="margin-top: 15px;">
+	<div id="yy-page-edit" class="container-fluid page-container page-content">
+		<div class="row yy-toolbar">
+			<button id="yy-btn-save" class="btn btn-sm btn-success">
+				<i class="fa fa-save"></i> 保存
+			</button>
+			<button id="yy-btn-cancel" class="btn btn-sm btn-success">
+				<i class="fa fa-rotate-left"></i> 取消
+			</button>
+		</div>
 		<form id="yy-form-edit" class="form-horizontal yy-form-edit">
 			<input name="id" id="id" type="hidden" value="${entity.id}"/>
 			<div class="row">
@@ -152,11 +160,60 @@
 			$("#yy-form-edit").ajaxSubmit(opt);
 		}
 		
+		function onSave(){
+			if (!$('#yy-form-edit').valid()) return false;
+		    
+			var editview = layer.load(2);
+			
+			var posturl = "${serviceurl}/create";
+			var pk = $("input[name='id']").val();
+			console.info(pk);
+			if (pk != "" && typeof (pk) != "undefined") {
+				posturl = "${serviceurl}/"+pk+"/update";
+			}
+			var opt = {
+				url : posturl,
+				type : "post",
+				success : function(data) {
+					console.info(data);
+					if (data.ret==0) {
+						layer.close(editview);
+						YYUI.succMsg('保存成功');
+			       	    //setTimeout(function(){top.layer.close(index)}, 100);//延时0.1秒，对应360 7.1版本bug
+				        //刷新表单
+			       	    window.parent.onRefreshTable('ls-table');
+			       	    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+			      		parent.layer.close(index); //再执行关闭 
+					} else {
+						YYUI.failMsg(' 保存失败：' + data.msg);
+						layer.close(editview);
+					}
+				},
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+					YYUI.promAlert('保存出错：HTTP错误 ');
+					layer.close(editview);
+				}
+			}
+			$("#yy-form-edit").ajaxSubmit(opt);
+		}
+		
 		
 		$(document).ready(function() {
+			
+			$("#yy-btn-save").bind("click", function() {
+				onSave(true);
+			});
+			$("#yy-btn-cancel").bind('click', onCancel);//新增
+			
 			validateForms();
 		});
 		
+		//取消编辑，返回列表视图
+		function onCancel() {
+			$('#yy-form-edit div.control-group').removeClass('error');
+			var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+			parent.layer.close(index); //再执行关闭 
+		}
 		
 		//表单校验
 		function validateForms(){

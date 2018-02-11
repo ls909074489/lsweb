@@ -42,10 +42,11 @@ public class SmsSendLogController extends BaseCRUDController<SmsSendLog, String>
 
 		List<SmsSendLog> list=smsSendLogService.list();
 		for(SmsSendLog log:list){
-			log.setTemplateId("7");
+			log.setTemplateId("999");
 			System.out.println(log.getTemplateId()+"===============66");
+			smsSendLogService.update(log);
 		}
-		smsSendLogService.batchSave(list);
+//		smsSendLogService.batchSave(list);
 		return ajaxJson;
 	}
 }

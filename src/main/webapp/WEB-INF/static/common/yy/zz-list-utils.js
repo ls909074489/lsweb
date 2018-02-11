@@ -106,7 +106,7 @@ $(document).ready(function() {
 		if (!onAddBefore()) {
 			return false;
 		}
-		openlsDialog("添加",serviceurl+"/create"+ _addParam,"ls-table","90%", "90%");
+		openCoverDialog("添加",serviceurl+"/create"+ _addParam,"ls-table","90%", "90%");
 		onAddAfter();
 	}
 	

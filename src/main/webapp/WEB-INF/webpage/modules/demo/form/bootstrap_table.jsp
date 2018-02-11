@@ -5,20 +5,14 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-    <meta name="decorator" content="list"/>
+    <meta name="decorator" content="list-bt"/>
     <title>bootstrapTable</title>
-    <link rel="stylesheet" href="${staticPath}/common/bootstrap-table/bootstrap-table.min.css" />
-    
-    <!-- 全局js -->
-	<%-- <html:js name="Validform" /> --%>
-	
-	<script type="text/javascript">
-		var serviceurl = "${serviceurl}";
-	</script>
 </head>
 
 <body class="gray-bg">
+   <script type="text/javascript">
+		var serviceurl = "${serviceurl}";
+	</script>
 	<div>
 	      <button id="yy-btn-add" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> 添加</button>
 	      <button id="yy-btn-edit" class="btn btn-sm btn-success"><i class="fa fa-file-text-o"></i> 修改</button>
@@ -47,15 +41,7 @@
 		<table id=ls-table></table>
 	</div>
 	
-	<script src="${staticPath}/vendors/layer/layer.min.js"></script>
-	<!-- Bootstrap table --> 
-	<script src="${staticPath}/common/bootstrap-table/bootstrap-table.min.js"></script> 
-	<script src="${staticPath}/common/bootstrap-table/extensions/export/bootstrap-table-export.js"></script> 
-	<script src="${staticPath}/common/bootstrap-table/tableExport.js"></script> 
-	<script src="${staticPath}/common/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script> 
-	<!-- 自定义js --> 
-	<script src="${staticPath}/common/yy/yy-ui-utils.js?v=41"></script> 
-	<script src="${staticPath}/common/yy/zz-list-utils.js?v=45"></script> 
+
 
 	<script>
 		var _tableCols= [
