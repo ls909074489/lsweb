@@ -375,4 +375,17 @@ public abstract class BaseCRUDController<Entity extends AbstractEntity<ID>, ID e
 		}
 		return display("edit");
 	}
+	
+	@RequestMapping(value = "/onDetail", method = RequestMethod.GET)
+	public String onDetail(@RequestParam(value = "id", required = true) ID id, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+		Entity entity = get(id);
+		preEdit(entity, model, request, response);
+		model.addAttribute("entity", entity);
+		String updateView = showUpdate(newModel(), model, request, response);
+		if (!StringUtils.isEmpty(updateView)) {
+			return updateView;
+		}
+		return display("detail");
+	}
 }

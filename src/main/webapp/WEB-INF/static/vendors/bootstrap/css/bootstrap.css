@@ -6754,4 +6754,7 @@ button.close {
     display: none !important;
   }
 }
+.yy-searchbar{
+	margin-top: 10px;
+}
 /*# sourceMappingURL=bootstrap.css.map */
