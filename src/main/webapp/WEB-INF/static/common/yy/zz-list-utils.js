@@ -89,7 +89,8 @@ $(document).ready(function() {
   
   //双击行事件
   function onDblClickRow(row){
-	  openlsDialogView("查看",serviceurl+"/onDetail?id="+row.id+ '&' + _detailParam,"ls-table","90%", "90%");   
+	  //openlsDialogView("查看",serviceurl+"/onDetail?id="+row.id+ '&' + _detailParam,"ls-table","90%", "90%");
+	  openCoverDialog(serviceurl+"/onDetail?id="+row.id+ '&' + _detailParam);
   }
   
   	//数据表格展开内容
@@ -106,7 +107,7 @@ $(document).ready(function() {
 		if (!onAddBefore()) {
 			return false;
 		}
-		openCoverDialog("添加",serviceurl+"/create"+ _addParam,"ls-table","90%", "90%");
+		openCoverDialog(serviceurl+"/create"+ _addParam);
 		onAddAfter();
 	}
 	
@@ -121,7 +122,8 @@ $(document).ready(function() {
 			top.layer.alert('只能选择一条数据!', {icon: 0, title:'警告'});
 			return;
 		}
-		openlsDialog("修改",serviceurl+"/onEdit?id="+pks.toString()+ '&' + _editParam,"ls-table","90%", "90%");
+		//openlsDialog("修改",serviceurl+"/onEdit?id="+pks.toString()+ '&' + _editParam,"ls-table","90%", "90%");
+		openCoverDialog(serviceurl+"/onEdit?id="+pks.toString()+ '&' + _editParam);
 	}
 	
 	//删除
@@ -237,10 +239,12 @@ $(document).ready(function() {
 	
 	window.operateEvents = {
 		'click .row-view': function (e, value, row, index) {
-			openlsDialogView("查看",serviceurl+"/onDetail?id="+row.id+ '&' + _detailParam,"ls-table","90%", "90%");   
+			//openlsDialogView("查看",serviceurl+"/onDetail?id="+row.id+ '&' + _detailParam,"ls-table","90%", "90%");   
+			openCoverDialog(serviceurl+"/onDetail?id="+row.id+ '&' + _detailParam);
          },
          'click .row-edit': function (e, value, row, index) {
-        	 openlsDialog("修改",serviceurl+"/onEdit?id="+row.id+ '&' + _editParam,"ls-table","90%", "90%");  
+        	 //openlsDialog("修改",serviceurl+"/onEdit?id="+row.id+ '&' + _editParam,"ls-table","90%", "90%");  
+        	 openCoverDialog(serviceurl+"/onEdit?id="+row.id+ '&' + _editParam);
          },
          'click .row-delete': function (e, value, row, index) {
         	 removeRecord(serviceurl+'/batch/delete', row.id, onRefreshTable);       

@@ -13,7 +13,7 @@
      <script type="text/javascript" src="${staticPath}/vendors/jquery-validation/js/localization/messages_zh.js"></script>
      
     <!-- 自定义js --> 
-    <script src="${staticPath}/common/yy/yy-ui-utils.js?v=34" type="text/javascript"></script> 
+    <script src="${staticPath}/common/yy/yy-ui-utils.js?v=35" type="text/javascript"></script> 
 </head>
 <body class="white-bg">
 	<div id="yy-page-edit" class="container-fluid page-container page-content">
@@ -208,12 +208,6 @@
 			validateForms();
 		});
 		
-		//取消编辑，返回列表视图
-		function onCancel() {
-			$('#yy-form-edit div.control-group').removeClass('error');
-			var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-			parent.layer.close(index); //再执行关闭 
-		}
 		
 		//表单校验
 		function validateForms(){

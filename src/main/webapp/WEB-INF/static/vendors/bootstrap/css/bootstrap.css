@@ -6757,4 +6757,11 @@ button.close {
 .yy-searchbar{
 	margin-top: 10px;
 }
+.yy-toolbar {
+    background-color: rgb(233, 237, 239);
+    margin-top: 0px;
+    margin-bottom: 5px;
+    min-height: 0px;
+    padding: 4px;
+}
 /*# sourceMappingURL=bootstrap.css.map */

@@ -13,11 +13,16 @@
      <script type="text/javascript" src="${staticPath}/vendors/jquery-validation/js/localization/messages_zh.js"></script>
      
     <!-- 自定义js --> 
-    <script src="${staticPath}/common/yy/yy-ui-utils.js?v=34" type="text/javascript"></script> 
+    <script src="${staticPath}/common/yy/yy-ui-utils.js?v=35" type="text/javascript"></script> 
 </head>
 <body class="white-bg">
-	<div id="yy-page-edit" class="container-fluid page-container page-content" style="margin-top: 15px;">
-		<form id="yy-form-edit" class="form-horizontal yy-form-edit">
+	<div id="yy-page-detail" class="container-fluid page-container page-content" style="margin-top: 15px;">
+		<div class="row yy-toolbar">
+			<button id="yy-btn-cancel" class="btn btn-sm btn-success">
+				<i class="fa fa-rotate-left"></i> 取消
+			</button>
+		</div>
+		<form id="yy-form-detail" class="form-horizontal yy-form-detail">
 			<fieldset disabled="disabled">
 			<input name="id" id="id" type="hidden" value="${entity.id}"/>
 			<div class="row">
@@ -112,69 +117,10 @@
 	    </div>
     </div>
     <script type="text/javascript">
-	    //初始化表单
-		var validateForm;
-		var callFunc;
-		//回调函数，在编辑和保存动作时，供openDialog调用提交表单。
-		function doLsSubmit(func){
-			console.info("dosubmit===111");
-			callFunc=func;
-			//callFunc();
-		    //validateForm.ajaxPost();
-			if (!$('#yy-form-edit').valid()) return false;
-		    
-			var editview = layer.load(2);
-			
-			var posturl = "${serviceurl}/create";
-			var pk = $("input[name='id']").val();
-			console.info(pk);
-			if (pk != "" && typeof (pk) != "undefined") {
-				posturl = "${serviceurl}/"+pk+"/update";
-			}
-			var opt = {
-				url : posturl,
-				type : "post",
-				success : function(data) {
-					console.info(data);
-					if (data.ret==0) {
-						layer.close(editview);
-							YYUI.succMsg('保存成功');
-							//window.parent.onRefresh(true);
-							callFunc();
-					} else {
-						YYUI.failMsg(' 保存失败：' + data.msg);
-						layer.close(editview);
-					}
-				},
-				error : function(XMLHttpRequest, textStatus, errorThrown) {
-					YYUI.promAlert('保存出错：HTTP错误 ');
-					layer.close(editview);
-				}
-			}
-			$("#yy-form-edit").ajaxSubmit(opt);
-		}
-		
 		
 		$(document).ready(function() {
-			validateForms();
+			$("#yy-btn-cancel").bind('click', onCancel);//新增
 		});
-		
-		
-		//表单校验
-		function validateForms(){
-			validata = $('#yy-form-edit').validate({
-				onsubmit : true,
-				rules : {
-					'businessType' : {required : true,maxlength : 100},
-					'code' : {required : true,maxlength : 100},
-					'datecols' : {maxlength : 100},
-					'timecols' : {maxlength : 100},
-					'isDisplay' : {maxlength : 100},
-					'type' : {maxlength : 100},
-					'type111' : {maxlength : 100}
-				}
-			});
-		}
     </script>
 </body>
 </html>

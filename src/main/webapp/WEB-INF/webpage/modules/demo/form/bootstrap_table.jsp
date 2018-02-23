@@ -7,13 +7,14 @@
     <meta charset="utf-8">
     <meta name="decorator" content="list-bt"/>
     <title>bootstrapTable</title>
+    
 </head>
 
 <body class="gray-bg">
    <script type="text/javascript">
 		var serviceurl = "${serviceurl}";
 	</script>
-	<div>
+	<div class="yy-toolbar">
 	      <button id="yy-btn-add" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> 添加</button>
 	      <button id="yy-btn-edit" class="btn btn-sm btn-success"><i class="fa fa-file-text-o"></i> 修改</button>
 	      <button id="yy-btn-remove" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i> 删除</button>

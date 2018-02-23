@@ -350,27 +350,7 @@ function openlsDialogView(title,url,gridId,width,height){
 }	
 
 
-function openCoverDialog(title,url,gridId,width,height){
-	width = width?width:'800px';
-	height = height?height:'500px';
-	if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
-		width='auto';
-		height='auto';
-	}else{//如果是PC端，根据用户设置的width和height显示。
-	
-	}
-
-/*	top.layer.open({
-	    type: 2,  
-	    area: [width, height],
-	    title: title,
-        maxmin: true, //开启最大化最小化按钮
-	    content: url ,
-	    btn: ['关闭'],
-		cancel: function(index){ 
-		}
-	});*/ 
-	console.info("openCoverDialog----33------");
+function openCoverDialog(url){
 	layer.open({
 		type : 2,
 		title : false,//标题
@@ -383,3 +363,9 @@ function openCoverDialog(title,url,gridId,width,height){
 }
 //==================layer dialog end=======================================================================================
 
+//取消编辑，返回列表视图
+function onCancel() {
+	$('#yy-form-edit div.control-group').removeClass('error');
+	var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+	parent.layer.close(index); //再执行关闭 
+}

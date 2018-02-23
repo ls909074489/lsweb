@@ -15,5 +15,5 @@
 	<decorator name="grid-select" page="grid-select.jsp" />
 	
 	<!-- 列表页装饰界面 -->
-	<decorator name="list-bt" page="list-boostraptable-theme.jsp" />
+	<decorator name="list-bt" page="list-theme-bt.jsp" />
 </decorators>
