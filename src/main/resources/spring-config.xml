@@ -37,5 +37,5 @@
 	<import resource="spring-config-cache.xml" />
 	<import resource="spring-config-shiro.xml" />
 	<import resource="spring-config-extend.xml" />
-
+	<import resource="spring-config-redis.xml" />
 </beans>
