@@ -42,9 +42,19 @@
         <property name="maxAge" value="${shiro.uid.rememeberMe.cookie.maxAge}"/>
     </bean>
     
+    <!-- session 创建、删除、查询 -->
+	<bean id="jedisShiroSessionRepository" class="cn.jeeweb.core.security.shiro.shared.JedisShiroSessionRepository" >
+		 <property name="jedisManager" ref="jedisManager"/>
+	</bean>
+	<!-- redis 的缓存 -->
+	<bean id="jedisManager" class="cn.jeeweb.core.security.shiro.shared.JedisManager">
+	    <property name="jedisPool" ref="jedisPool"/>
+	</bean>
+	
     <!--dao -->
     <!-- 会话保持的DAO -->
     <bean id="onlineSessionDAO" class="cn.jeeweb.modules.sys.security.shiro.session.mgt.eis.OnlineSessionDAO">
+    	 <property name="shiroSessionRepository" ref="jedisShiroSessionRepository"/>
         <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
         <property name="activeSessionsCacheName" value="${shiro.active.session.cacheName}"/>
     </bean>

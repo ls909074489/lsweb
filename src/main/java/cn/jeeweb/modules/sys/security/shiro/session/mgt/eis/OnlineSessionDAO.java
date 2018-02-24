@@ -1,5 +1,7 @@
 package cn.jeeweb.modules.sys.security.shiro.session.mgt.eis;
 
+import cn.jeeweb.core.security.shiro.shared.CustomShiroSessionDAO;
+import cn.jeeweb.core.security.shiro.shared.ShiroSessionRepository;
 import cn.jeeweb.core.utils.StringUtils;
 import cn.jeeweb.modules.sys.entity.UserOnline;
 import cn.jeeweb.modules.sys.security.shiro.ShiroConstants;
@@ -7,11 +9,14 @@ import cn.jeeweb.modules.sys.security.shiro.session.mgt.OnlineSession;
 import cn.jeeweb.modules.sys.security.shiro.session.mgt.OnlineSessionFactory;
 import cn.jeeweb.modules.sys.service.IUserOnlineService;
 
+import org.apache.log4j.Logger;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -27,6 +32,8 @@ import java.util.Date;
  *
  */
 public class OnlineSessionDAO extends EnterpriseCacheSessionDAO {
+	
+	private static Logger logger = Logger.getLogger(CustomShiroSessionDAO.class);
 	/**
 	 * 上次同步数据库的时间戳
 	 */
@@ -38,6 +45,18 @@ public class OnlineSessionDAO extends EnterpriseCacheSessionDAO {
 	@Autowired
 	private OnlineSessionFactory onlineSessionFactory;
 
+	
+    private ShiroSessionRepository shiroSessionRepository;  
+  
+    public ShiroSessionRepository getShiroSessionRepository() {  
+        return shiroSessionRepository;  
+    }  
+  
+    public void setShiroSessionRepository(  
+            ShiroSessionRepository shiroSessionRepository) {  
+        this.shiroSessionRepository = shiroSessionRepository;  
+    }  
+    
 	/**
 	 * 同步session到数据库的周期 单位为毫秒（默认5分钟）
 	 */
@@ -54,6 +73,7 @@ public class OnlineSessionDAO extends EnterpriseCacheSessionDAO {
 			return null;
 		}
 		return onlineSessionFactory.createSession(userOnline);
+//		return getShiroSessionRepository().getSession(sessionId);  
 	}
 
 	/**
@@ -113,4 +133,41 @@ public class OnlineSessionDAO extends EnterpriseCacheSessionDAO {
 
 	}
 
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+    @Override  
+    public void update(Session session) throws UnknownSessionException {  
+        getShiroSessionRepository().saveSession(session);  
+    }  
+  
+    @Override  
+    public void delete(Session session) {  
+        if (session == null) {  
+        	logger.error( 
+                    "session can not be null,delete failed");  
+            return;  
+        }  
+        Serializable id = session.getId();  
+        if (id != null)  
+            getShiroSessionRepository().deleteSession(id);  
+    }  
+  
+    @Override  
+    public Collection<Session> getActiveSessions() {  
+        return getShiroSessionRepository().getAllSessions();  
+    }  
+  
+    @Override  
+    protected Serializable doCreate(Session session) {  
+        Serializable sessionId = this.generateSessionId(session);  
+        this.assignSessionId(session, sessionId);  
+        getShiroSessionRepository().saveSession(session);  
+        return sessionId;  
+    }  
+  
+//    @Override  
+//    protected Session doReadSession(Serializable sessionId) {  
+//        return getShiroSessionRepository().getSession(sessionId);  
+//    }
 }
