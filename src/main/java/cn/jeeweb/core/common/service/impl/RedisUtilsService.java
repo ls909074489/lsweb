@@ -30,7 +30,6 @@ public class RedisUtilsService {
 	@Autowired
 	ICommonDao commonDao;
 	
-	
 	private static Long LIVE_TIME = 3600L;
 	
 	private RedisTemplate<String, Object> redisTemplate;
