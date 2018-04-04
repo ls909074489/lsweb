@@ -6,9 +6,9 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.session.Session;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import cn.jeeweb.core.utils.LoggerUtils;
+import cn.jeeweb.core.utils.SerializeUtil;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.exceptions.JedisConnectionException;
@@ -157,8 +157,8 @@ public class JedisManager {
             Set<byte[]> byteKeys = jedis.keys((JedisShiroSessionRepository.REDIS_SHIRO_ALL).getBytes());  
             if (byteKeys != null && byteKeys.size() > 0) {  
                 for (byte[] bs : byteKeys) {  
-                	Session obj = SerializeUtil.deserialize(jedis.get(bs),  
-                    		 Session.class);  
+//                	Session obj = SerializeUtil.deserialize(jedis.get(bs),Session.class); 
+                	Session obj = (Session) SerializeUtil.toObject(jedis.get(bs)); 
                      if(obj instanceof Session){
                     	 sessions.add(obj);  
                      }

@@ -1,4 +1,4 @@
-package com.test;
+package cn.jeeweb.modules.caipiao.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,11 +79,11 @@ public class CaipiaoBean {
 		list.add(new CaipiaoBean("201801050655", 1515120900000l, 1515120905281l, "2,7,4,0,6"));
 		list.add(new CaipiaoBean("201801050654", 1515120840000l, 1515120845392l, "0,7,2,5,7"));
 
-		int shuzhi=0;//位数
+		int shuzhi=0;//浣嶆暟
 		int sameCount=3;
 		int actSame=1;
 		
-		System.out.println("万---"+"千---"+"百---"+"十---"+"个---");
+		System.out.println("涓�---"+"鍗�---"+"鐧�---"+"鍗�---"+"涓�---");
 		for(int k=0;k<5;k++){
 			shuzhi=k;
 			actSame=1;

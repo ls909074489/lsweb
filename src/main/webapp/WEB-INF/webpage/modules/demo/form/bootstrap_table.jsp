@@ -44,6 +44,7 @@
 	
 
 
+
 	<script>
 		var _tableCols= [
 		{field: 'Number',title: '序号',align: 'center',formatter: function (value, row, index) {return index+1;}},

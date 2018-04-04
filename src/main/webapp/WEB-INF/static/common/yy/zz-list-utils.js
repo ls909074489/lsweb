@@ -8,8 +8,6 @@ var btPageSize='10';
 var btSortName = 'id';
 var btSortOrder = 'desc';
 var pageList=[10 , 20, 50, 100,500];
-var TableInit = function (url) {
-var oTableInit = new Object();
 
 $(document).ready(function() {
 	//按回车查询
@@ -25,6 +23,10 @@ $(document).ready(function() {
 	$("#yy-btn-refresh").bind('click', onRefreshTable);//刷新
 	$("#yy-btn-search").bind('click', onQuery);//查询
 });
+
+
+var TableInit = function (url) {
+var oTableInit = new Object();
 //==================bootstrapTable start=======================================================================================
       //初始化Table
       oTableInit.Init = function () {

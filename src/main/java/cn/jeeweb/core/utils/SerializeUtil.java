@@ -2,6 +2,7 @@ package cn.jeeweb.core.utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -20,6 +21,7 @@ public class SerializeUtil {
 		return key.getBytes();
 	}
 	
+	
 	/**
 	 * 描述 : <Object转byte[]>. <br>
 	 * <p>
@@ -32,16 +34,19 @@ public class SerializeUtil {
 	public static byte[] toByteArray(Object obj) {
 		byte[] bytes = null;
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ObjectOutputStream oos = null;
 		try {
-			ObjectOutputStream oos = new ObjectOutputStream(bos);
+			oos = new ObjectOutputStream(bos);
 			oos.writeObject(obj);
 			oos.flush();
 			bytes = bos.toByteArray();
-			oos.close();
-			bos.close();
+		
 		} catch (IOException ex) {
 			ex.printStackTrace();
-		}
+		}finally {
+			close(oos);
+            close(bos);
+        }
 		return bytes;
 	}
 
@@ -59,17 +64,20 @@ public class SerializeUtil {
 			return null;
 		}
 		Object obj = null;
+		ByteArrayInputStream bis = null;
+		ObjectInputStream ois = null;
 		try {
-			ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-			ObjectInputStream ois = new ObjectInputStream(bis);
+			bis = new ByteArrayInputStream(bytes);
+			ois = new ObjectInputStream(bis);
 			obj = ois.readObject();
-			ois.close();
-			bis.close();
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		} catch (ClassNotFoundException ex) {
 			ex.printStackTrace();
-		}
+		} finally {
+            close(bis);
+            close(bis);
+        }
 		return obj;
 	}
 	
@@ -121,5 +129,14 @@ public class SerializeUtil {
 		}
 		return objList;
 	}
-
+	
+	
+    private static void close(Closeable closeable) {
+        if (closeable != null)
+            try {
+                closeable.close();
+            } catch (IOException e) {
+            	 LoggerUtils.fmtError(SerializeUtil.class, "close stream error");
+            }
+    }
 }

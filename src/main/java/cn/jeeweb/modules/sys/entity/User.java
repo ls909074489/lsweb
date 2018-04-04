@@ -1,5 +1,7 @@
 package cn.jeeweb.modules.sys.entity;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -7,8 +9,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
+
 import cn.jeeweb.core.common.entity.DataEntity;
-import java.lang.String;
 
 /**
  * @Title 用户实体
@@ -45,12 +47,28 @@ public class User extends DataEntity<String> {
 	private String email;
 	// 联系电话
 	private String phone;
+	
+	/**昵称*/
+    private String nickname;
+    private Date lastLoginTime;
 
 	/**
 	 * 系统用户的状态
 	 */
 	private String status = STATUS_NORMAL;
 
+	
+    public User() {}
+    
+    public User(User user) {
+		this.id = user.getId();
+		this.nickname = user.getNickname();
+		this.email = user.getEmail();
+		this.password = user.getPassword();
+		this.createDate = user.getCreateDate();
+		this.lastLoginTime = user.getLastLoginTime();
+	}
+    
 	/**
 	 * 获取 id
 	 *
@@ -173,6 +191,22 @@ public class User extends DataEntity<String> {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public Date getLastLoginTime() {
+		return lastLoginTime;
+	}
+
+	public void setLastLoginTime(Date lastLoginTime) {
+		this.lastLoginTime = lastLoginTime;
 	}
 
 }

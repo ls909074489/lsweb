@@ -1,6 +1,8 @@
 package cn.jeeweb.modules.sys.security.shiro.realm;
 
 import java.io.Serializable;
+
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -11,7 +13,9 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import cn.jeeweb.core.utils.ServletUtils;
 import cn.jeeweb.modules.sys.entity.User;
@@ -19,8 +23,6 @@ import cn.jeeweb.modules.sys.security.shiro.web.filter.authc.UsernamePasswordTok
 import cn.jeeweb.modules.sys.service.IUserService;
 import cn.jeeweb.modules.sys.utils.LogUtils;
 import cn.jeeweb.modules.sys.utils.UserUtils;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * http://blog.csdn.net/babys/article/details/50151407
@@ -64,6 +66,7 @@ public class UserRealm extends AuthorizingRealm {
 
 		if (User.STATUS_LOCKED.equals(user.getStatus())) {
 			throw new LockedAccountException(); // 帐号锁定
+			//throw new DisabledAccountException("帐号已经禁止登录！");
 		}
 		// 交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
 		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
@@ -74,9 +77,23 @@ public class UserRealm extends AuthorizingRealm {
 		);
 		// 记录登录日志
 		LogUtils.saveLog(ServletUtils.getRequest(), "系统登录");
+		System.out.println(authenticationInfo);
 		return authenticationInfo;
+//		return new SimpleAuthenticationInfo(user,user.getPassword(), getName());
+		
 	}
 
+	
+    /**
+     * 清空当前用户权限信息
+     */
+	public  void clearCachedAuthorizationInfo() {
+		PrincipalCollection principalCollection = SecurityUtils.getSubject().getPrincipals();
+		SimplePrincipalCollection principals = new SimplePrincipalCollection(
+				principalCollection, getName());
+		super.clearCachedAuthorizationInfo(principals);
+	}
+	
 	@Override
 	public void clearCachedAuthorizationInfo(PrincipalCollection principals) {
 		super.clearCachedAuthorizationInfo(principals);

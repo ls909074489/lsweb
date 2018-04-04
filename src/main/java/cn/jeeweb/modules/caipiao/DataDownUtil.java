@@ -1,4 +1,4 @@
-package com.test;
+package cn.jeeweb.modules.caipiao;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,18 +21,20 @@ import org.jsoup.select.Elements;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 
+import cn.jeeweb.modules.caipiao.entity.CaipiaoBean;
+
 public class DataDownUtil {
 
 	/**
-	 * 读取网站源码信息工具类
+	 * 璇诲彇缃戠珯婧愮爜淇℃伅宸ュ叿绫�
 	 * @author hackxhao
 	 * @version v1.0
-	 * @param url 请求连接
-	 * @param encoding 编码集
+	 * @param url 璇锋眰杩炴帴
+	 * @param encoding 缂栫爜闆�
 	 * @return buffer 
 	 */
 	public static String getHtmlResourceByUrl(String url,String encoding){
-		// 存储源代码容器
+		// 瀛樺偍婧愪唬鐮佸鍣�
 		StringBuffer buffer = new StringBuffer();
 		URL urlObj = null;
 		URLConnection uc = null;
@@ -40,27 +42,27 @@ public class DataDownUtil {
 		BufferedReader reader = null;
 		
 		try {
-			// 建立网络连接
+			// 寤虹珛缃戠粶杩炴帴
 			urlObj = new URL(url);
-			// 打开网络连接
+			// 鎵撳紑缃戠粶杩炴帴
 			uc = urlObj.openConnection();
-			// 建立文件写入流
+			// 寤虹珛鏂囦欢鍐欏叆娴�
 			isr = new InputStreamReader(uc.getInputStream(),encoding);
-			// 建立缓存流写入流
+			// 寤虹珛缂撳瓨娴佸啓鍏ユ祦
 			reader = new BufferedReader(isr);
-			// 建立临时文件
+			// 寤虹珛涓存椂鏂囦欢
 			String temp = null;
 			while((temp = reader.readLine()) !=null){
-				buffer.append(temp+"\n"); // 追加内容（一边读一边写）
+				buffer.append(temp+"\n"); // 杩藉姞鍐呭锛堜竴杈硅涓�杈瑰啓锛�
 			}
 			
 		} catch (MalformedURLException e) {
 			
 			e.printStackTrace();
-			System.out.println("没有联网,检查设置");
+			System.out.println("娌℃湁鑱旂綉,妫�鏌ヨ缃�");
 		}catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("打开网络连接失败，请稍后重试");
+			System.out.println("鎵撳紑缃戠粶杩炴帴澶辫触锛岃绋嶅悗閲嶈瘯");
 		}finally{
 			if(isr!=null){
 				try {
@@ -75,39 +77,39 @@ public class DataDownUtil {
 		return buffer.toString();
 	}
 	/***
-	 * 操作具体网站类
+	 * 鎿嶄綔鍏蜂綋缃戠珯绫�
 	 * @author hackxhao
 	 * @version v1.0
-	 * @param url 请求连接
-	 * @param encoding 编码集
+	 * @param url 璇锋眰杩炴帴
+	 * @param encoding 缂栫爜闆�
 	 * @return maps
 	 */
 	public static List<HashMap<String,String>> getJobInfo(String url,String encoding){
-		// 1.根据网站和页面的编码集获取网页源代码
+		// 1.鏍规嵁缃戠珯鍜岄〉闈㈢殑缂栫爜闆嗚幏鍙栫綉椤垫簮浠ｇ爜
 		String html = getHtmlResourceByUrl(url, encoding);
-		// 2.解析源代码
+		// 2.瑙ｆ瀽婧愪唬鐮�
 		Document document = Jsoup.parse(html);
-		// 获取外层的div id="newlist_list_content_table"
+		// 鑾峰彇澶栧眰鐨刣iv id="newlist_list_content_table"
 		Element element= document.getElementById("newlist_list_content_table");
-		// 获取工资结果集的列表 class="newlist"
+		// 鑾峰彇宸ヨ祫缁撴灉闆嗙殑鍒楄〃 class="newlist"
 		Elements elements= document.getElementsByClass("newlist");
 
-		// 创建一个List集合
+		// 鍒涘缓涓�涓狶ist闆嗗悎
 		List<HashMap<String,String>> maps = new ArrayList<HashMap<String,String>>();
 		for (Element el :elements) {
 			HashMap<String,String> map = new HashMap<String,String>();
-			// 获取a连接
+			// 鑾峰彇a杩炴帴
 			String link = el.getElementsByTag("a").attr("href");
 			System.out.println(link);
-			// 获取公司名称
+			// 鑾峰彇鍏徃鍚嶇О
 			String textTitle = el.getElementsByClass("gsmc").text();
-			// 获取职位名称
+			// 鑾峰彇鑱屼綅鍚嶇О
 			String jobName = el.getElementsByClass("zwmc").text();
-			// 获取工资
+			// 鑾峰彇宸ヨ祫
 			String money = el.getElementsByClass("zwyx").text();
-			// 获取工资地点
+			// 鑾峰彇宸ヨ祫鍦扮偣
 			String address = el.getElementsByClass("gzdd").text();
-			// 获取发布时间
+			// 鑾峰彇鍙戝竷鏃堕棿
 			String fadate = el.getElementsByClass("gxsj").text();
 			map.put("textTitle",textTitle);
 			map.put("jobName",jobName);
@@ -121,25 +123,25 @@ public class DataDownUtil {
 		return maps;
 	}
 	/**
-	 * 解析a链接里面的内容
+	 * 瑙ｆ瀽a閾炬帴閲岄潰鐨勫唴瀹�
 	 * @author hackxhao
 	 * @version v1.0
 	 */
 	public static List<HashMap<String,String>> getLinkInfo(String url,String encoding){
-				// 1.根据网站和页面的编码集获取网页源代码
+				// 1.鏍规嵁缃戠珯鍜岄〉闈㈢殑缂栫爜闆嗚幏鍙栫綉椤垫簮浠ｇ爜
 				String html = getHtmlResourceByUrl(url, encoding);
-				// 2.解析源代码
+				// 2.瑙ｆ瀽婧愪唬鐮�
 				Document document = Jsoup.parse(html);
-				// 获取工资结果集的列表 class="tab-inner-cont"
+				// 鑾峰彇宸ヨ祫缁撴灉闆嗙殑鍒楄〃 class="tab-inner-cont"
 				Elements elements= document.select("div.tab-inner-cont > p");
 				System.out.println(elements);
 				List<HashMap<String,String>> maps = new ArrayList<HashMap<String,String>>();
 				
 				for (Element el :elements) {
 					HashMap<String,String> map = new HashMap<String,String>();
-					// 获取a连接
+					// 鑾峰彇a杩炴帴
 					
-					// 获取描述
+					// 鑾峰彇鎻忚堪
 					String ms = el.getElementsByTag("p").text();
 					
 					map.put("ms",ms);
@@ -153,7 +155,7 @@ public class DataDownUtil {
 	
 	
 	/**
-	 * java 入口
+	 * java 鍏ュ彛
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -177,10 +179,9 @@ public class DataDownUtil {
 
 	}
 	
-	public static void test1(){
-//		String url = "https://776588a.com/lotteryV3/trend.do?lotCode=FFC";
-//		String url = "https://776588a.com/lottery/trendChart/index.do?lotCode=FFC";
-		String url = "https://776588a.com/lottery/trendChart/lotteryOpenNum.do?lotCode=FFC&recentDay=1&rows=1440&timestamp="+System.currentTimeMillis();
+	
+	public static List<CaipiaoBean> getCaiPiaoList(int recentDay,int rows){
+		String url = "https://776588a.com/lottery/trendChart/lotteryOpenNum.do?lotCode=FFC&recentDay="+recentDay+"&rows="+rows+"&timestamp="+System.currentTimeMillis();
 		String encoding = "UTF-8";
 		String html = getHtmlResourceByUrl(url, encoding);
 		String jsonStr="{\"records\":"+html+"}";
@@ -202,6 +203,11 @@ public class DataDownUtil {
 				return arg1.getQiHao().compareTo(arg0.getQiHao());
 			}
 		});
+		return list;
+	}
+	
+	public static void test1(){
+		List<CaipiaoBean> list=getCaiPiaoList(1,20);
 		
 		int a=0;
 		for(CaipiaoBean bean:list){
@@ -212,12 +218,12 @@ public class DataDownUtil {
 //			System.out.println("list.add(new CaipiaoBean(\""+bean.getQiHao()+"\", "+bean.getEndTime()+"l, "+bean.getOpenTime()+"l, \""+bean.getHaoMa()+"\"));");
 		}
 		
-		int shuzhi=0;//位数
+		int shuzhi=0;//浣嶆暟
 		int sameCount=10;
 		int actSame=1;
 		int totalMoney=400;
 		boolean hasBuy=false;
-		System.out.println("万-----"+"千-----"+"百-----"+"十-----"+"个-----");
+		System.out.println("涓�-----"+"鍗�-----"+"鐧�-----"+"鍗�-----"+"涓�-----");
 		StringBuilder result=new StringBuilder();
 		for(int k=0;k<5;k++){
 			hasBuy=false;
@@ -256,8 +262,8 @@ public class DataDownUtil {
 					beishu=10;
 					hasBuy=false;
 				}
-//				System.out.print(actSame+"大--");
-				result.append(actSame+"大----");
+//				System.out.print(actSame+"澶�--");
+				result.append(actSame+"澶�----");
 			}else{
 				if(actSame>4){
 					if(totalMoney>0){
@@ -279,8 +285,8 @@ public class DataDownUtil {
 					beishu=10;
 					hasBuy=false;
 				}
-//				System.out.print(actSame+"小--");
-				result.append(actSame+"小----");
+//				System.out.print(actSame+"灏�--");
+				result.append(actSame+"灏�----");
 			}
 			
 		}

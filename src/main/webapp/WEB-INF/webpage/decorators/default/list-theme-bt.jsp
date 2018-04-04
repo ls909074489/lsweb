@@ -41,6 +41,7 @@
 <body class="">
 	<div class="wrapper wrapper-content animated fadeInRight" style="padding-top: 10px;">
 		<sitemesh:body/>
+		<script src="${staticPath}/vendors/bootstrap/js/bootstrap.min.js?v=3.3.6"></script>
 	</div>
 </body>
 </html>

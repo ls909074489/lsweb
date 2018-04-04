@@ -43,7 +43,7 @@ public class SmsSendLogController extends BaseCRUDController<SmsSendLog, String>
 //		RedisTemplate<String, Object> redisTemplate=redisUtilsService.getRedisTemplate();
 //		System.out.println(redisTemplate.boundValueOps(key).get(0,-1));
 		
-		String key="String:billcode:sl_sb:3333-SEQUENCE";
+		String key="String:billcode:sl_sb:8888888-SEQUENCE";
 		String val="222222222架构之路之spring+redis的集成123456";
 		
 		redisUtilsService.putString(key,val);
