@@ -1,14 +1,18 @@
 package cn.jeeweb.modules.sys.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.jeeweb.core.base.UserOnlineBo;
 import cn.jeeweb.core.common.controller.BaseCRUDController;
 import cn.jeeweb.core.model.AjaxJson;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
+import cn.jeeweb.core.security.shiro.session.CustomSessionManager;
 import cn.jeeweb.core.utils.JeewebPropertiesUtil;
 import cn.jeeweb.modules.sys.entity.UserOnline;
 import cn.jeeweb.modules.sys.security.shiro.session.mgt.OnlineSession;
@@ -32,7 +36,10 @@ public class UserOnlineController extends BaseCRUDController<UserOnline, String>
 	private IUserOnlineService userOnlineService;
 	@Autowired
 	private OnlineSessionDAO onlineSessionDAO;
-
+	@Autowired
+	CustomSessionManager customSessionManager;
+	
+	
 	public UserOnlineController() {
 	}
 
@@ -61,4 +68,14 @@ public class UserOnlineController extends BaseCRUDController<UserOnline, String>
 		return ajaxJson;
 	}
 
+	/**
+	 * 获取在线用户
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/getOnLineUser")
+	public List<UserOnlineBo> getOnLineUser(){
+		List<UserOnlineBo> list = customSessionManager.getAllUser();
+		return list;
+	}
 }

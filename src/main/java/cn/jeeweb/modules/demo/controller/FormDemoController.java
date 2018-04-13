@@ -72,4 +72,9 @@ public class FormDemoController extends BaseController {
 		return display("bootstrap_table");
 	}
 	
+	
+	@RequestMapping("/codeList")
+	public String codeList() {
+		return display("code_list");
+	}
 }

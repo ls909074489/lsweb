@@ -63,6 +63,8 @@ public class User extends DataEntity<String> {
     public User(User user) {
 		this.id = user.getId();
 		this.nickname = user.getNickname();
+		this.username = user.getUsername();
+		this.realname = user.getRealname();
 		this.email = user.getEmail();
 		this.password = user.getPassword();
 		this.createDate = user.getCreateDate();

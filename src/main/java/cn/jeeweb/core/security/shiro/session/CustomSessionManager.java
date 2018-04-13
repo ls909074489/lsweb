@@ -18,6 +18,8 @@ import cn.jeeweb.core.security.shiro.shared.ShiroSessionRepository;
 import cn.jeeweb.core.utils.LoggerUtils;
 import cn.jeeweb.core.utils.StringUtils;
 import cn.jeeweb.modules.sys.entity.User;
+import cn.jeeweb.modules.sys.security.shiro.realm.UserRealm;
+import cn.jeeweb.modules.sys.security.shiro.realm.UserRealm.Principal;
 /**
  * 
  * 开发公司：SOJSON在线工具 <p>
@@ -125,9 +127,15 @@ public class CustomSessionManager {
 			 * return new SimpleAuthenticationInfo(user,user.getPswd(), getName());的user 对象。
 			 */
 			obj = spc.getPrimaryPrincipal();
-			if(null != obj && obj instanceof User){
+			if(null != obj && obj instanceof Principal){//if(null != obj && obj instanceof User){
 				//存储session + user 综合信息
-				UserOnlineBo userBo = new UserOnlineBo((User)obj);
+				Principal principal=(Principal) obj;
+				User user=new User();
+				user.setId(principal.getId());
+				user.setUsername(principal.getUsername());
+				user.setRealname(principal.getRealname());
+
+				UserOnlineBo userBo = new UserOnlineBo(user);//new UserOnlineBo((User)obj);
 				//最后一次和系统交互的时间
 				userBo.setLastAccess(session.getLastAccessTime());
 				//主机的ip地址
