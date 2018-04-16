@@ -32,14 +32,17 @@
                     <div class="ibox-content">
                         <span>
                         	<span style="font-size: 24px;">ls2008代码生成</span>
-                             <button type="button" class="btn btn-sm btn-white" onclick="addPannel();"> 
+                             <button type="button" class="btn btn-sm btn-success" onclick="addPannel();"> 
                              <i class="fa fa-plus"></i> 添加</button>
+                             <button id="yy-btn-save" class="btn btn-sm btn-success" onclick="genCode();">
+							 	<i class="fa fa-save"></i> 保存
+							 </button>
                              
-                              <button type="button" class="btn btn-sm btn-white" onclick="addPannel();" style="float: right;"> 
+                              <button type="button" class="btn btn-sm btn-success" onclick="addPannel();" style="float: right;"> 
                              <i class="fa fa-plus"></i> 添加</button>
                         </span>
                         <div class="input-group">
-                        	<span id="pannelForm" style="display: none;">
+                        	<div id="pannelForm" style="display: none;">
                         		 @Column(name="
                         		 <input type="text" name="colDbName" id="colDbNameModelId" value="" class="copyEle" style="width: 25%;"/>
 	                        	",length = 
@@ -57,28 +60,28 @@
 								</select>
 	                        		)
 								
-								<div style="width:;display: inline-block;float: right;">&nbsp;&nbsp;明细显示&nbsp;&nbsp;
+								<div style="display: inline-block;float: right;">&nbsp;&nbsp;明细显示&nbsp;&nbsp;
 									<select name="isDetailVisiable" style="width: 35px;float: right;" class="detailCopy">
 										<option value="true">是</option>
 										<option value="false">否</option>
 									</select>
 									&nbsp;&nbsp;
 								</div>
-								<div style="width:;display: inline-block;float: right;">&nbsp;&nbsp;列表显示&nbsp;&nbsp;
+								<div style="display: inline-block;float: right;">&nbsp;&nbsp;列表显示&nbsp;&nbsp;
 	                        		<select name="isListVisiable" style="width: 35px;float: right;" class="detailCopy">
 										<option value="true">是</option>
 										<option value="false">否</option>
 									</select>
 									&nbsp;&nbsp;
 								</div>
-								<div style="width:;display: inline-block;float: right;">&nbsp;&nbsp;列表查询&nbsp;&nbsp;
+								<div style="display: inline-block;float: right;">&nbsp;&nbsp;列表查询&nbsp;&nbsp;
 									<select name="isSearch" style="width: 35px;float: right;" class="detailCopy">
 										<option value="false">否</option>
 										<option value="true">是</option>
 									</select>
 									&nbsp;&nbsp;
 								</div>
-								<div style="width:;display: inline-block;float: right;">是否主表&nbsp;&nbsp;
+								<div style="display: inline-block;float: right;">是否主表&nbsp;&nbsp;
 	                        		<select name="isMain" style="width: 35px;float: right;" class="detailCopy">
 										<option value="true">是</option>
 										<option value="false">否</option>
@@ -98,7 +101,7 @@
 									;//<input type="text" name="colAnno" id="colAnnoModelId" value="" class="copyEle" style="width: 20%;"/>
                                
                                
-                            	   <div style="width:;display: inline-block;float: right;">最大长度&nbsp;&nbsp;
+                            	   <div style="display: inline-block;float: right;">最大长度&nbsp;&nbsp;
 										<select name="maxLength" style="width: ;" class="detailCopy">
 											<option value="250">250</option>
 											<option value="1">1</option>
@@ -113,14 +116,14 @@
 										</select>
 										&nbsp;&nbsp;
 									</div>
-									<div style="width:;display: inline-block;float: right;">是否必填&nbsp;&nbsp;
+									<div style="display: inline-block;float: right;">是否必填&nbsp;&nbsp;
 										<select name="isRequired" style="width: 35px;" class="detailCopy">
 											<option value="true">是</option>
 											<option value="false">否</option>
 										</select>
 										&nbsp;&nbsp;
 									</div>
-									 <div style="width:;display: inline-block;float: right;">显示类型&nbsp;&nbsp;
+									 <div style="display: inline-block;float: right;">显示类型&nbsp;&nbsp;
 										<select name="eleType" style="width: 80px;" onchange="changeEleType(this);" class="detailCopy">
 											<option value="text">input框</option>
 											<option value="select">下拉选择</option>
@@ -132,16 +135,42 @@
 										&nbsp;&nbsp;
 									</div>
                                 </div>
-                        	</span>
+                        	</div>
                         </div>
-						<div class="">
-							package
-							<input type="text" name="packagePath" value="" class="copyEle" style="width: 285px;"/>;
+                        
+                        <div style="border-style:solid;border-color: #e7eaec;padding-bottom: 10px;padding-left: 10px;">
+	                       	<table>
+	                       		<tr>
+	                       			<td style="width: 700px;">
+	                       				<div class="">
+											package
+											<input type="text" name="packagePath" value="" class="copyEle" style="width: 285px;"/>;
+											&nbsp;&nbsp;&nbsp;&nbsp;//所在包路径,例如&nbsp;&nbsp;com.yy.modules.sys.user
+										</div>
+				                        <div class="">
+											@RequestMapping(value="
+											<input type="text" name="reqMappingPath" value="" class="copyEle" style="width: 285px;"/>
+											")&nbsp;&nbsp;&nbsp;&nbsp;//对应访问url地址,例如&nbsp;&nbsp;/sys/user
+										</div>
+										<div class="">
+											return "
+											<input type="text" name="jspPath" value="" class="copyEle" style="width: 285px;"/>
+											";&nbsp;&nbsp;&nbsp;&nbsp;//返回的页面,例如 &nbsp;&nbsp;return "modules/sys/user/user_main";
+										</div>
+	                       			</td>
+	                       			<td style="width: 20px;">
+	                       			</td>
+	                       			<td style="width: 60%;">
+	                       				<textarea rows="3" cols="" style="width: 100%;"></textarea>
+	                       			</td>
+	                       		</tr>
+	                       	</table>
 						</div>
+						
 						<div class="">
 							@MetaData(value = "
 							<input type="text" name="title" value="" class="copyEle" style="width: 200px;"/>
-							")
+							")&nbsp;&nbsp;&nbsp;&nbsp;//开发作者&nbsp;&nbsp;<input type="text" name="author" value="ls2008" class="copyEle" style="width: 200px;"/>
 						</div>
 						<div class="">
 							@Table(name = "
@@ -178,28 +207,28 @@
 	                        		)
 	                        		
 								
-								<div style="width:;display: inline-block;float: right;">&nbsp;&nbsp;明细显示&nbsp;&nbsp;
+								<div style="display: inline-block;float: right;">&nbsp;&nbsp;明细显示&nbsp;&nbsp;
 									<select name="isDetailVisiable" style="width: 35px;float: right;" class="detailCopy">
 										<option value="true">是</option>
 										<option value="false">否</option>
 									</select>
 									&nbsp;&nbsp;
 								</div>
-								<div style="width:;display: inline-block;float: right;">&nbsp;&nbsp;列表显示&nbsp;&nbsp;
+								<div style="display: inline-block;float: right;">&nbsp;&nbsp;列表显示&nbsp;&nbsp;
 	                        		<select name="isListVisiable" style="width: 35px;float: right;" class="detailCopy">
 										<option value="true">是</option>
 										<option value="false">否</option>
 									</select>
 									&nbsp;&nbsp;
 								</div>
-								<div style="width:;display: inline-block;float: right;">&nbsp;&nbsp;列表查询&nbsp;&nbsp;
+								<div style="display: inline-block;float: right;">&nbsp;&nbsp;列表查询&nbsp;&nbsp;
 									<select name="isSearch" style="width: 35px;float: right;" class="detailCopy">
 										<option value="false">否</option>
 										<option value="true">是</option>
 									</select>
 									&nbsp;&nbsp;
 								</div>
-								<div style="width:;display: inline-block;float: right;">是否主表&nbsp;&nbsp;
+								<div style="display: inline-block;float: right;">是否主表&nbsp;&nbsp;
 	                        		<select name="isMain" style="width: 35px;float: right;" class="detailCopy">
 										<option value="true">是</option>
 										<option value="false">否</option>
@@ -218,7 +247,7 @@
 	                           		<input type="text" name="colName" id="colNameModelId" value="" class="inputChange copyEle" style="width: 20%;"/>
 									;//<input type="text" name="colAnno" id="colAnnoModelId" value="" class="copyEle" style="width: 20%;"/>
                                
-                               		<div style="width:;display: inline-block;float: right;">最大长度&nbsp;&nbsp;
+                               		<div style="display: inline-block;float: right;">最大长度&nbsp;&nbsp;
 										<select name="maxLength" style="width: ;" class="detailCopy">
 											<option value="250">250</option>
 											<option value="1">1</option>
@@ -233,14 +262,14 @@
 										</select>
 										&nbsp;&nbsp;
 									</div>
-                               		<div style="width:;display: inline-block;float: right;">是否必填&nbsp;&nbsp;
+                               		<div style="display: inline-block;float: right;">是否必填&nbsp;&nbsp;
 										<select name="isRequired" style="width: 35px;" class="detailCopy">
 											<option value="true">是</option>
 											<option value="false">否</option>
 										</select>
 										&nbsp;&nbsp;
 									</div>
-	                               <div style="width:;display: inline-block;float: right;">显示类型&nbsp;&nbsp;
+	                               <div style="display: inline-block;float: right;">显示类型&nbsp;&nbsp;
 										<select name="eleType" style="width: 80px;" onchange="changeEleType(this);" class="detailCopy">
 											<option value="text">input框</option>
 											<option value="select">下拉选择</option>
@@ -321,6 +350,43 @@
 				}
 			}
 			$("#tableName").val("yy_"+newVal);
+    	}
+    	
+    	function genCode(){
+    		if (!$('#yy-form-edit').valid()) return false;
+    		
+    		layer.confirm("确定要生成吗？", function(index) {
+    			layer.close(index);
+    			
+    			//保存新增的子表记录 
+    	        var subList = new Array();
+    	        var rows = $("#entityTableBody tr");
+    	        
+    	        for(var i = 0; i < rows.length; i++){
+    	            subList.push(getRowData(rows[i]));
+    	        }
+    	        
+    			var editview = layer.load(2);
+    			var opt = {
+    				url : "${ctx}/demo/genCode",
+    				data : {"subList" : subList},
+    				type : "post",
+    				success : function(data) {
+    					if (data.success) {
+    						layer.close(editview);
+    						window.parent.YYUI.succMsg('保存成功');
+    					} else {
+    						window.parent.YYUI.failMsg('保存失败：' + data.msg);
+    						layer.close(editview);
+    					}
+    				},
+    				error : function(XMLHttpRequest, textStatus, errorThrown) {
+    					window.parent.YYUI.promAlert('保存出错：HTTP错误');
+    					layer.close(editview);
+    				}
+    			}
+    			$("#yy-form-edit").ajaxSubmit(opt);
+    		});	
     	}
     </script>
 </body>
