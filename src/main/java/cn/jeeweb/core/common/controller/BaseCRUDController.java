@@ -149,6 +149,7 @@ public abstract class BaseCRUDController<Entity extends AbstractEntity<ID>, ID e
 	@RequestMapping(value = "create", method = RequestMethod.GET)
 	public String _showCreate(Model model, HttpServletRequest request, HttpServletResponse response) {
 		preEdit(newModel(), model, request, response);
+		model.addAttribute(OPENSTATE, OPENSTATE_ADD);
 		String creteaView = showCreate(newModel(), model, request, response);
 		if (!model.containsAttribute("data")) {
 			model.addAttribute("data", newModel());
@@ -366,6 +367,7 @@ public abstract class BaseCRUDController<Entity extends AbstractEntity<ID>, ID e
 	@RequestMapping(value = "/onEdit", method = RequestMethod.GET)
 	public String onEdit(@RequestParam(value = "id", required = true) ID id, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
+		model.addAttribute(OPENSTATE, OPENSTATE_EDIT);
 		Entity entity = get(id);
 		preEdit(entity, model, request, response);
 		model.addAttribute("entity", entity);
@@ -379,6 +381,7 @@ public abstract class BaseCRUDController<Entity extends AbstractEntity<ID>, ID e
 	@RequestMapping(value = "/onDetail", method = RequestMethod.GET)
 	public String onDetail(@RequestParam(value = "id", required = true) ID id, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
+		model.addAttribute(OPENSTATE, OPENSTATE_DETAIL);
 		Entity entity = get(id);
 		preEdit(entity, model, request, response);
 		model.addAttribute("entity", entity);

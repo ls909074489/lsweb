@@ -29,6 +29,12 @@ public class BaseController {
 	 */
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	private String viewPrefix;
+	
+	public static String OPENSTATE = "openstate";
+	
+	public static final String OPENSTATE_ADD = "add";
+	public static final String OPENSTATE_EDIT = "edit";
+	public static final String OPENSTATE_DETAIL = "detail";
 
 	protected BaseController() {
 		setViewPrefix(defaultViewPrefix());
