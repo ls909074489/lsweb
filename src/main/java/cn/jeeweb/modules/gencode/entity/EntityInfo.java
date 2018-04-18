@@ -39,6 +39,8 @@ public class EntityInfo extends AbstractEntity<String> {
 	
 	private String entityName;//实体名
 	
+	private String extendsEntity;//继承父类
+	
 	private String tableName;//表名
 	
 	private String packagePath;//包路径
@@ -143,6 +145,14 @@ public class EntityInfo extends AbstractEntity<String> {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getExtendsEntity() {
+		return extendsEntity;
+	}
+
+	public void setExtendsEntity(String extendsEntity) {
+		this.extendsEntity = extendsEntity;
 	}
 
 }
