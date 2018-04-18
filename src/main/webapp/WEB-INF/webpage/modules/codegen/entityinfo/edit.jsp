@@ -462,7 +462,7 @@
 			var pk = $("input[name='id']").val();
 			console.info(pk);
 			if (pk != "" && typeof (pk) != "undefined") {
-				posturl = "${serviceurl}/"+pk+"/genCode";
+				posturl = "${serviceurl}/genCode";
 			}
 			
 			//保存新增的子表记录 
