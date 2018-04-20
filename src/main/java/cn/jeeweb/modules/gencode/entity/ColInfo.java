@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -91,7 +92,8 @@ public class ColInfo extends AbstractEntity<String> {
 	@Column(name = "col_width")
 	private Integer colWidth=100;//列表显示长度
 	
-	
+	@Transient
+	private String subid;
 
 	public String getColName() {
 		return colName;
@@ -227,5 +229,13 @@ public class ColInfo extends AbstractEntity<String> {
 
 	public void setEntityinfo(EntityInfo entityinfo) {
 		this.entityinfo = entityinfo;
+	}
+
+	public String getSubid() {
+		return subid;
+	}
+
+	public void setSubid(String subid) {
+		this.subid = subid;
 	}
 }

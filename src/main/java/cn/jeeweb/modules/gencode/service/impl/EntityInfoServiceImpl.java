@@ -6,6 +6,7 @@ import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import cn.jeeweb.core.common.service.impl.CommonServiceImpl;
 import cn.jeeweb.core.model.AjaxJson;
@@ -31,10 +32,21 @@ public class EntityInfoServiceImpl extends CommonServiceImpl<EntityInfo> impleme
 			User user = new User();
 			user.setId(principal.getId());
 //			info.setCreateBy(user);
-			save(info);
+			if(StringUtils.isEmpty(info.getId())){
+				save(info);
+			}else{
+				update(info);
+			}
+			
 			for(ColInfo col:subList){
 //				col.setCreateBy(user);
 				col.setEntityinfo(info);
+				col.setId(col.getSubid());
+				if(StringUtils.isEmpty(col.getId())){
+					colInfoService.save(col);
+				}else{
+					colInfoService.update(col);
+				}
 			}
 			colInfoService.batchSave(subList);
 			BeanUtils.createCode(info, subList);

@@ -3,7 +3,6 @@ package cn.jeeweb.modules.gencode;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
@@ -14,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.output.FileWriterWithEncoding;
 import org.springframework.util.StringUtils;
 
 import cn.jeeweb.modules.gencode.entity.ColInfo;
@@ -46,7 +46,7 @@ public class BeanUtils {
 	public static void main(String[] args) throws Exception{
 		EntityInfo info=new EntityInfo();
 		info.setEntityName("AdddEntity");
-		info.setExtendEntityName("BaseEntity");
+		info.setExtendsEntity("BaseEntity");
 		info.setPackagePath("com.yy.modules.ver.auditCols");
 		info.setTitle("测试111");
 		info.setAuthor("ls2008");
@@ -224,7 +224,7 @@ public class BeanUtils {
 		}
 		String fileName = savePath+ entityName+ ".java";
 		File file =  createFile(fileName);
-		FileWriter fw = new FileWriter(file);
+		FileWriterWithEncoding fw = new FileWriterWithEncoding(file,"UTF-8");
 		StringBuilder sb=new StringBuilder();
 		sb.append("package "+info.getPackagePath()+";"+RT_2);
 		
@@ -286,11 +286,11 @@ public class BeanUtils {
 		sb.append("@DynamicUpdate").append(RT_1);
 		sb.append("@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)").append(RT_1);
 		if(info.getGenType().equals(EntityInfo.GENTYPE_SERVERPAGE)){
-			sb.append("public class " + entityName + " extends "+info.getExtendEntityName()+" {"+RT_2);
+			sb.append("public class " + entityName + " extends "+info.getExtendsEntity()+" {"+RT_2);
 		}else if(info.getGenType().equals(EntityInfo.GENTYPE_TREEMAINPAGE)){
 			sb.append("public class " + entityName + " extends TreeEntity {"+RT_2);
 		}else{
-			sb.append("public class " + entityName + " extends "+info.getExtendEntityName()+" {"+RT_2);
+			sb.append("public class " + entityName + " extends "+info.getExtendsEntity()+" {"+RT_2);
 		}
 		
 		sb.append("	private static final long serialVersionUID = 1L;"+RT_2);
@@ -386,7 +386,7 @@ public class BeanUtils {
 		
 		String fileName = savePath+ daoName + ".java";
 		File file =  createFile(fileName);
-		FileWriter fw = new FileWriter(file);
+		FileWriterWithEncoding fw = new FileWriterWithEncoding(file,"UTF-8");
 		
 		StringBuilder sb=new StringBuilder();
 		sb.append("package "+info.getPackagePath()+";"+RT_2);
@@ -429,7 +429,7 @@ public class BeanUtils {
 		
 		String fileName = savePath+ serviceName + ".java";
 		File file =  createFile(fileName);
-		FileWriter fw = new FileWriter(file);
+		FileWriterWithEncoding fw = new FileWriterWithEncoding(file,"UTF-8");
 		
 		StringBuilder sb=new StringBuilder();
 		sb.append("package "+info.getPackagePath()+";"+RT_2);
@@ -538,7 +538,7 @@ public class BeanUtils {
 		
 		String fileName = savePath+ controllerName + ".java";
 		File file =  createFile(fileName);
-		FileWriter fw = new FileWriter(file);
+		FileWriterWithEncoding fw = new FileWriterWithEncoding(file,"UTF-8");
 		
 		StringBuilder sb=new StringBuilder();
 		sb.append("package "+info.getPackagePath()+";"+RT_2);
@@ -821,7 +821,7 @@ public class BeanUtils {
 		
 		String fileName = savePath+ jspPreName + "_list.jsp";
 		File file =  createFile(fileName);
-		FileWriter fw = new FileWriter(file);
+		FileWriterWithEncoding fw = new FileWriterWithEncoding(file,"UTF-8");
 		
 		StringBuilder sb=new StringBuilder();
 		sb.append("<%@ page contentType=\"text/html;charset=UTF-8\"%>"+RT_1);
@@ -873,7 +873,7 @@ public class BeanUtils {
 		
 		String fileName = savePath+ jspPreName + "_edit.jsp";
 		File file =  createFile(fileName);
-		FileWriter fw = new FileWriter(file);
+		FileWriterWithEncoding fw = new FileWriterWithEncoding(file,"UTF-8");
 		
 		StringBuilder sb=new StringBuilder();
 		sb.append("<%@ page contentType=\"text/html;charset=UTF-8\"%>"+RT_1);
@@ -970,7 +970,7 @@ public class BeanUtils {
 		
 		String fileName = savePath+ jspPreName + "_detail.jsp";
 		File file =  createFile(fileName);
-		FileWriter fw = new FileWriter(file);
+		FileWriterWithEncoding fw = new FileWriterWithEncoding(file,"UTF-8");
 		
 		StringBuilder sb=new StringBuilder();
 		sb.append("<%@ page contentType=\"text/html;charset=UTF-8\"%>"+RT_1);
@@ -1048,7 +1048,7 @@ public class BeanUtils {
 		
 		String fileName = savePath+ jspPreName + "_main.jsp";
 		File file =  createFile(fileName);
-		FileWriter fw = new FileWriter(file);
+		FileWriterWithEncoding fw = new FileWriterWithEncoding(file,"UTF-8");
 		
 		//创建form元素start
 		List<ColInfo> detailList=new ArrayList<ColInfo>();//明细页面显示的字段列
@@ -1093,7 +1093,7 @@ public class BeanUtils {
 		
 		String fileName = savePath+ jspPreName + "_list.jsp";
 		File file =  createFile(fileName);
-		FileWriter fw = new FileWriter(file);
+		FileWriterWithEncoding fw = new FileWriterWithEncoding(file,"UTF-8");
 		
 		//创建form元素start
 		List<ColInfo> detailList=new ArrayList<ColInfo>();//明细页面显示的字段列
@@ -1143,7 +1143,7 @@ public class BeanUtils {
 		
 		String fileName = savePath+"ref_"+jspPreName + "_list.jsp";
 		File file =  createFile(fileName);
-		FileWriter fw = new FileWriter(file);
+		FileWriterWithEncoding fw = new FileWriterWithEncoding(file,"UTF-8");
 		
 		//创建form元素start
 		List<ColInfo> detailList=new ArrayList<ColInfo>();//明细页面显示的字段列
@@ -1182,7 +1182,7 @@ public class BeanUtils {
 		
 		String fileName = savePath+"ref_"+jspPreName + "_tree.jsp";
 		File file =  createFile(fileName);
-		FileWriter fw = new FileWriter(file);
+		FileWriterWithEncoding fw = new FileWriterWithEncoding(file,"UTF-8");
 		
 		//创建form元素start
 		List<ColInfo> detailList=new ArrayList<ColInfo>();//明细页面显示的字段列
@@ -1216,7 +1216,7 @@ public class BeanUtils {
 		String fileName = savePath+ jspPreName + "_add.jsp";
 		
 		File file =  createFile(fileName);
-		FileWriter fw = new FileWriter(file);
+		FileWriterWithEncoding fw = new FileWriterWithEncoding(file,"UTF-8");
 		
 		List<ColInfo> mainList=new ArrayList<ColInfo>();
 		List<ColInfo> subList=new ArrayList<ColInfo>();
@@ -1284,7 +1284,7 @@ public class BeanUtils {
 		String fileName = savePath+ jspPreName + "_edit.jsp";
 		
 		File file =  createFile(fileName);
-		FileWriter fw = new FileWriter(file);
+		FileWriterWithEncoding fw = new FileWriterWithEncoding(file,"UTF-8");
 		
 		List<ColInfo> mainList=new ArrayList<ColInfo>();
 		List<ColInfo> subList=new ArrayList<ColInfo>();
@@ -1345,7 +1345,7 @@ public class BeanUtils {
 		String fileName = savePath+ jspPreName + "_edit.jsp";
 		
 		File file =  createFile(fileName);
-		FileWriter fw = new FileWriter(file);
+		FileWriterWithEncoding fw = new FileWriterWithEncoding(file,"UTF-8");
 		
 		List<ColInfo> mainList=new ArrayList<ColInfo>();
 		List<ColInfo> subList=new ArrayList<ColInfo>();
@@ -1413,7 +1413,7 @@ public class BeanUtils {
 		String fileName = savePath+ jspPreName + "_detail.jsp";
 		
 		File file =  createFile(fileName);
-		FileWriter fw = new FileWriter(file);
+		FileWriterWithEncoding fw = new FileWriterWithEncoding(file,"UTF-8");
 		
 		List<ColInfo> mainList=new ArrayList<ColInfo>();
 		List<ColInfo> subList=new ArrayList<ColInfo>();
@@ -1473,7 +1473,7 @@ public class BeanUtils {
 		String fileName = savePath+ jspPreName + "_detail.jsp";
 		
 		File file =  createFile(fileName);
-		FileWriter fw = new FileWriter(file);
+		FileWriterWithEncoding fw = new FileWriterWithEncoding(file,"UTF-8");
 		
 		List<ColInfo> mainList=new ArrayList<ColInfo>();
 		List<ColInfo> subList=new ArrayList<ColInfo>();

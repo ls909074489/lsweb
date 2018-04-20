@@ -45,7 +45,7 @@ public class EntityInfo extends AbstractEntity<String> {
 	
 	private String packagePath;//包路径
 	
-	private String extendEntityName;//继承
+//	private String extendEntityName;//继承
 	
 	private String reqMappingPath;
 	
@@ -75,13 +75,13 @@ public class EntityInfo extends AbstractEntity<String> {
 		this.packagePath = packagePath;
 	}
 
-	public String getExtendEntityName() {
-		return extendEntityName;
-	}
-
-	public void setExtendEntityName(String extendEntityName) {
-		this.extendEntityName = extendEntityName;
-	}
+//	public String getExtendEntityName() {
+//		return extendEntityName;
+//	}
+//
+//	public void setExtendEntityName(String extendEntityName) {
+//		this.extendEntityName = extendEntityName;
+//	}
 	
 	public String getReqMappingPath() {
 		return reqMappingPath;

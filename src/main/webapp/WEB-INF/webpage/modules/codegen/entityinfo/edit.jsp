@@ -129,6 +129,7 @@
 	                        <ul class="sortable-list connectList agile-list" id="pannelContent">
 	                        	<c:forEach items="${colList}" var="list">
 	                           <li class="warning-element" id="${list.id}">
+	                          		 <input name="subid" id="subid" type="hidden" value="${list.id}"/>
 	                           		@Column(name="
 	                        		 <input type="text" name="colDbName" id="colDbNameModelId" value="${list.colDbName}" class="copyEle" style="width: 25%;"/>
 		                        	",length = 
@@ -181,6 +182,7 @@
 												<option value="String">String</option>
 												<option value="Long">Long</option>
 												<option value="Integer">Integer</option>
+												<option value="Double">Double</option>
 												<option value="Date">Date</option>
 												<option value="Lob">Lob</option>
 											</select>
@@ -231,6 +233,7 @@
 		</form>
 		<div class="input-group">
                 <div id="pannelForm" style="display: none;">
+                			 <input name="subid" id="subid" type="hidden" value=""/>
                     		 @Column(name="
                     		 <input type="text" name="colDbName" id="colDbNameModelId" value="" class="copyEle" style="width: 25%;"/>
                      	",length = 
@@ -282,6 +285,7 @@
 						<option value="String">String</option>
 						<option value="Long">Long</option>
 						<option value="Integer">Integer</option>
+						<option value="Double">Double</option>
 						<option value="Date">Date</option>
 						<option value="Lob">Lob</option>
 					</select>
@@ -449,7 +453,7 @@
 					newVal+="_"+c.toLocaleLowerCase();
 				}
 			}
-			$("#tableName").val("yy_"+newVal);
+			$("#tableName").val("yy"+newVal);
     	}
 		
     	
@@ -482,6 +486,9 @@
 					if (data.ret==0) {
 						layer.close(editview);
 						YYUI.succMsg('保存成功');
+						window.parent.onRefreshTable('ls-table');
+			       	    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+			      		parent.layer.close(index); //再执行关闭 
 					} else {
 						YYUI.failMsg(' 保存失败：' + data.msg);
 						layer.close(editview);

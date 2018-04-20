@@ -51,7 +51,7 @@ public class EntityInfoController extends BaseCRUDController<EntityInfo, String>
 	private List<ColInfo> convertToColsEntities(String[] paramArr) {
 		List<ColInfo> returnList = new ArrayList<>();
 		if (paramArr == null || paramArr.length == 0){
-		return returnList;
+			return returnList;
 		}else{
 		for (String data : paramArr) {
 			JSONObject jsonObject = new JSONObject();
